@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Cluster</string>
+    <string name="action_fullscreen">Fullscreen</string>
+    <string name="action_add">Add a Gauge</string>
+    <string name="drawer_open">Open the drawer</string>
+    <string name="drawer_close">Close the drawer</string>
+
+    <string-array name="menu_text_array">
+        <item>Live Monitor</item>
+        <item>Datalogging</item>
+        <item>Fault Codes</item>
+        <item>Settings</item>
+        <item>Help</item>
+    </string-array>
+
+    <string-array name="menu_icon_array">
+        <item>@drawable/monitorIcon</item>
+        <item>@drawable/loggerIcon</item>
+        <item>@drawable/faultsIcon</item>
+        <item>@drawable/settingsIcon</item>
+        <item>@drawable/helpIcon</item>
+    </string-array>
+</resources>
