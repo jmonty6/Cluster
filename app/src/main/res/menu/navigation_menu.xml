@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group
+        android:id="@+id/menu_top"
+        android:checkableBehavior="single">
+        <item
+            android:checked="true"
+            android:id="@+id/drawer_item_monitor"
+            android:icon="@drawable/ic_av_timer_black_24dp"
+            android:title="@string/drawer_title_monitor" />
+        <item
+            android:id="@+id/drawer_item_logger"
+            android:icon="@drawable/ic_timeline_black_24dp"
+            android:title="@string/drawer_title_logger"/>
+        <item
+            android:id="@+id/drawer_item_faults"
+            android:icon="@drawable/ic_warning_black_24dp"
+            android:title="@string/drawer_title_faults"/>
+    </group>
+
+    <group
+        android:id="@+id/menu_bottom"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/drawer_item_settings"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="@string/drawer_title_settings"/>
+        <item
+            android:id="@+id/drawer_item_help"
+            android:icon="@drawable/ic_help_black_24dp"
+            android:title="@string/drawer_title_help"/>
+    </group>
+
+</menu>

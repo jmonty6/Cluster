@@ -5,19 +5,9 @@
     <string name="drawer_open">Open the drawer</string>
     <string name="drawer_close">Close the drawer</string>
 
-    <string-array name="menu_text_array">
-        <item>Live Monitor</item>
-        <item>Datalogging</item>
-        <item>Fault Codes</item>
-        <item>Settings</item>
-        <item>Help</item>
-    </string-array>
-
-    <string-array name="menu_icon_array">
-        <item>@drawable/monitorIcon</item>
-        <item>@drawable/loggerIcon</item>
-        <item>@drawable/faultsIcon</item>
-        <item>@drawable/settingsIcon</item>
-        <item>@drawable/helpIcon</item>
-    </string-array>
+    <string name="drawer_title_monitor">Live Monitor</string>
+    <string name="drawer_title_logger">Datalogging</string>
+    <string name="drawer_title_faults">Fault Codes</string>
+    <string name="drawer_title_settings">Settings</string>
+    <string name="drawer_title_help">Help</string>
 </resources>
