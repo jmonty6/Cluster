@@ -15,7 +15,7 @@
                 <item name="android:navigationBarColor">@color/material_grey_850</item>
         </style>
 
-        <style name="AppTheme.Light" parent="Theme.AppCompat.NoActionBar">
+        <style name="AppTheme.Light" parent="Theme.AppCompat.Light.NoActionBar">
                 <!-- Customize your theme here. -->
                 <item name="colorPrimary">@color/colorPrimary</item>
                 <item name="colorPrimaryDark">@color/colorPrimaryDark</item>

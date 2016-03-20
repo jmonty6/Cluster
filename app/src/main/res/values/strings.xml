@@ -5,6 +5,7 @@
     <string name="drawer_open">Open the drawer</string>
     <string name="drawer_close">Close the drawer</string>
 
+    <string name="default_profile">Default</string>
     <string name="drawer_title_monitor">Live Monitor</string>
     <string name="drawer_title_logger">Datalogging</string>
     <string name="drawer_title_faults">Fault Codes</string>

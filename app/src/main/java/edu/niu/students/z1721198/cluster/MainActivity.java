@@ -124,16 +124,6 @@ public class MainActivity extends AppCompatActivity
 
         // set up the profile change button
         ImageButton profileButton = (ImageButton) findViewById(R.id.change_profile_button);
-        profileButton.setOnClickListener(
-                new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-
-                    }
-                }
-        );
     }
 
     public boolean onCreateOptionsMenu(Menu menu)
@@ -158,13 +148,16 @@ public class MainActivity extends AppCompatActivity
             // user pressed the fullscreen button
             case R.id.action_fullscreen:
                 // hide the title and set the app to fullscreen
-                requestWindowFeature(Window.FEATURE_NO_TITLE);
-                getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                        WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                hideSystemUI();
                 return true;
             // the user's action was not recognized
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void hideSystemUI()
+    {
+
     }
 }
