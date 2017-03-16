@@ -1,14 +1,220 @@
 <resources>
+    <!-- APP BAR STRINGS -->
     <string name="app_name">Cluster</string>
+    <string name="title_monitor">Live Monitor</string>
+    <string name="title_logger">Datalogging</string>
+    <string name="title_faults">Fault Codes</string>
+    <string name="title_settings">Settings</string>
+    <string name="title_profiles">Edit Profile</string>
+    <string name="title_obd2_settings">OBD2 Adapter</string>
+    <string name="title_units_settings">Units</string>
     <string name="action_fullscreen">Fullscreen</string>
     <string name="action_add">Add a Gauge</string>
     <string name="drawer_open">Open the drawer</string>
     <string name="drawer_close">Close the drawer</string>
 
-    <string name="default_profile">Default</string>
+    <!-- NAV BAR STRINGS -->
+    <string name="default_profile">Default Profile</string>
     <string name="drawer_title_monitor">Live Monitor</string>
     <string name="drawer_title_logger">Datalogging</string>
     <string name="drawer_title_faults">Fault Codes</string>
     <string name="drawer_title_settings">Settings</string>
     <string name="drawer_title_help">Help</string>
+    <string name="drawer_title_new_profile">New Profile</string>
+    <string name="drawer_title_edit_profile">Edit Profile</string>
+
+    <!-- GENERAL STRINGS -->
+    <string name="coming_soon">Coming Soon</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- PROFILE STRINGS -->
+    <string name="prof_vehinfo">Vehicle Information</string>
+    <string name="prof_name">Profile Name</string>
+    <string name="prof_year">Year</string>
+    <string name="prof_make">Make</string>
+    <string name="prof_model">Model</string>
+    <string name="prof_weight">Vehicle Weight</string>
+    <string name="prof_engdisp">Engine Displacement</string>
+    <string name="prof_maxrpm">Max RPM</string>
+    <string name="prof_fuelcap">Max Fuel</string>
+    <string name="prof_change_photo">Change Photo</string>
+    <string name="prof_take_photo">Take photo</string>
+    <string name="prof_choose_photo">Choose Photo</string>
+
+    <string-array name="prof_year_array">
+        <item>---</item>
+        <item>1996</item>
+        <item>1997</item>
+        <item>1998</item>
+        <item>1999</item>
+        <item>2000</item>
+        <item>2001</item>
+        <item>2002</item>
+        <item>2003</item>
+        <item>2004</item>
+        <item>2005</item>
+        <item>2006</item>
+        <item>2007</item>
+        <item>2008</item>
+        <item>2009</item>
+        <item>2010</item>
+        <item>2011</item>
+        <item>2012</item>
+        <item>2013</item>
+        <item>2014</item>
+        <item>2015</item>
+        <item>2016</item>
+        <item>2017</item>
+        <item>2018</item>
+    </string-array>
+
+    <string-array name="prof_make_array">
+        <item>---</item>
+        <item>Abarth</item><item>Acura</item><item>Alfa Romeo</item><item>Aston Martin</item><item>Audi</item>
+        <item>Bentley</item><item>BMW</item><item>Buick</item>
+        <item>Cadillac</item><item>Chevrolet</item><item>Chrysler</item>
+        <item>Dodge</item>
+        <item>Eagle</item>
+        <item>Fiat</item><item>Ford</item>
+        <item>Geo</item><item>GMC</item>
+        <item>Honda</item><item>Hummer</item><item>Hyundai</item>
+        <item>Infiniti</item><item>Isuzu</item>
+        <item>Jaguar</item><item>Jeep</item>
+        <item>Kia</item>
+        <item>Land Rover</item><item>Lexus</item><item>Lincoln</item><item>Lotus</item>
+        <item>Maserati</item><item>Mazda</item><item>McLaren</item><item>Mercedes-Benz</item><item>Mercury</item><item>Mini</item><item>Mitsubishi</item>
+        <item>Nissan</item>
+        <item>Oldsmobile</item><item>Opel</item>
+        <item>Peugeot</item><item>Plymouth</item><item>Pontiac</item><item>Porsche</item>
+        <item>Ram</item><item>Renault</item>
+        <item>Saab</item><item>Saturn</item><item>Scion</item><item>Skoda</item><item>Smart</item><item>Subaru</item><item>Suzuki</item>
+        <item>Tesla</item><item>Toyota</item>
+        <item>Vauxhall</item><item>Volkswagen</item><item>Volvo</item>
+    </string-array>
+
+    <string name="prof_save">Save</string>
+    <string name="prof_delete">Delete</string>
+
+    <!-- PREFERENCE STRING -->
+
+    <!-- General Preferences -->
+    <string name="pref_general_title">General</string>
+    <string name="pref_general_key">pref_general</string>
+
+    <string name="pref_general_obd2_title">OBD2 Adapter</string>
+    <string name="pref_general_obd2_key">pref_general_obd2</string>
+    <string name="pref_general_units_title">Units</string>
+    <string name="pref_general_units_key">pref_general_units</string>
+
+    <!-- Bluetooth Preferences -->
+    <string name="pref_bt_title">Bluetooth</string>
+    <string name="pref_bt_key">pref_bt</string>
+
+    <string name="pref_bt_enabled_title">Bluetooth Enabled</string>
+    <string name="pref_bt_enabled_key">pref_bt_enabled</string>
+    <string name="pref_bt_pair_title">Pair a Device</string>
+    <string name="pref_bt_pair_key">pref_bt_pair</string>
+    <string name="pref_bt_select_title">Select Bluetooth Device</string>
+    <string name="pref_bt_select_key">pref_bt_select</string>
+    <string-array name="pref_bt_select_entries">
+        <item name="empty"> </item>
+    </string-array>
+    <string-array name="pref_bt_select_values">
+        <item name="empty">0</item>
+    </string-array>
+
+    <!-- Display Preferences -->
+    <string name="pref_display_title">Display</string>
+    <string name="pref_display_key">pref_display</string>
+
+    <string name="pref_display_theme_title">Theme</string>
+    <string name="pref_display_theme_key">pref_display_theme</string>
+    <string-array name="pref_display_theme_entries">
+        <item name="pref_display_light">Light</item>
+        <item name="pref_display_dark">Dark</item>
+    </string-array>
+    <string-array name="pref_display_theme_values">
+        <item name="pref_display_light">0</item>
+        <item name="pref_display_dark">1</item>
+    </string-array>
+    <string name="pref_display_theme_default">0</string>
+
+
+    <!-- Distance -->
+    <string-array name="pref_units_distance_entries">
+        <item name="pref_units_distance_mi">Miles</item>
+        <item name="pref_units_distance_km">Kilometers</item>
+    </string-array>
+    <string-array name="pref_units_distance_values">
+        <item name="pref_units_distance_mi">0</item>
+        <item name="pref_units_distance_km">1</item>
+    </string-array>
+    <string name="pref_units_distance_default">0</string>
+
+    <!-- Weight -->
+    <string-array name="pref_units_weight_entries">
+        <item name="pref_units_weight_lb">Pounds</item>
+        <item name="pref_units_weight_kg">Kilograms</item>
+    </string-array>
+    <string-array name="pref_units_weight_values">
+        <item name="pref_units_weight_lb">0</item>
+        <item name="pref_units_weight_kg">1</item>
+    </string-array>
+    <string name="pref_units_weight_default">0</string>
+
+    <!-- Volume -->
+    <string-array name="pref_units_volume_entries">
+        <item name="pref_units_volume_gal">Gallons</item>
+        <item name="pref_units_volume_l">Liters</item>
+    </string-array>
+    <string-array name="pref_units_volume_values">
+        <item name="pref_units_volume_gal">0</item>
+        <item name="pref_units_volume_l">1</item>
+    </string-array>
+    <string name="pref_units_volume_default">0</string>
+
+    <!-- Temperature -->
+    <string-array name="pref_units_temperature_entries">
+        <item name="pref_units_temperature_f">Fahrenheit</item>
+        <item name="pref_units_temperature_c">Celsius</item>
+    </string-array>
+    <string-array name="pref_units_temperature_values">
+        <item name="pref_units_temperature_f">0</item>
+        <item name="pref_units_temperature_c">1</item>
+    </string-array>
+    <string name="pref_units_temperature_default">0</string>
+
+    <!-- Pressure -->
+    <string-array name="pref_units_pressure_entries">
+        <item name="pref_units_pressure_psi">PSI</item>
+        <item name="pref_units_pressure_bar">Bar</item>
+    </string-array>
+    <string-array name="pref_units_pressure_values">
+        <item name="pref_units_pressure_psi">0</item>
+        <item name="pref_units_pressure_bar">1</item>
+    </string-array>
+    <string name="pref_units_pressure_default">0</string>
+
+    <!-- Torque -->
+    <string-array name="pref_units_torque_entries">
+        <item name="pref_units_torque_lbft">Pound-Feet</item>
+        <item name="pref_units_torque_nm">Newton-Meters</item>
+    </string-array>
+    <string-array name="pref_units_torque_values">
+        <item name="pref_units_torque_lbft">0</item>
+        <item name="pref_units_torque_nm">1</item>
+    </string-array>
+    <string name="pref_units_torque_default">0</string>
+
+    <!-- Power -->
+    <string-array name="pref_units_power_entries">
+        <item name="pref_units_power_hp">Horsepower</item>
+        <item name="pref_units_power_kw">Kilowatts</item>
+    </string-array>
+    <string-array name="pref_units_power_values">
+        <item name="pref_units_power_hp">0</item>
+        <item name="pref_units_power_kw">1</item>
+    </string-array>
+    <string name="pref_units_power_default">0</string>
+
 </resources>

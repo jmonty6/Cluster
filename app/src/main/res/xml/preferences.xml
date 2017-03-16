@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/pref_general_title"
+        android:key="@string/pref_general_key">
+        <Preference
+            android:title="@string/pref_general_obd2_title"
+            android:key="@string/pref_general_obd2_key" />
+        <Preference
+            android:title="@string/pref_general_units_title"
+            android:key="@string/pref_general_units_key" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_bt_title"
+        android:key="@string/pref_bt_key">
+        <SwitchPreference
+            android:title="@string/pref_bt_enabled_title"
+            android:key="@string/pref_bt_enabled_key"
+            android:defaultValue="false" />
+        <Preference
+            android:title="@string/pref_bt_pair_title"
+            android:key="@string/pref_bt_pair_key" />
+        <ListPreference
+            android:title="@string/pref_bt_select_title"
+            android:summary="%s"
+            android:key="@string/pref_bt_select_key"
+            android:entries="@array/pref_bt_select_entries"
+            android:entryValues="@array/pref_bt_select_values"
+            android:defaultValue="0"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_display_title"
+        android:key="@string/pref_display_key">
+        <ListPreference
+            android:title="@string/pref_display_theme_title"
+            android:summary="%s"
+            android:key="@string/pref_display_theme_key"
+            android:entries="@array/pref_display_theme_entries"
+            android:entryValues="@array/pref_display_theme_values"
+            android:defaultValue="@string/pref_display_theme_default"/>
+        <Preference
+            android:title="Gauge Type"
+            android:key="pref_display_gauge">
+        </Preference>
+        <SwitchPreference
+            android:title="Fullscreen Mode"
+            android:key="pref_display_fullscreen"
+            android:defaultValue="false"/>
+    </PreferenceCategory>
+</PreferenceScreen>
