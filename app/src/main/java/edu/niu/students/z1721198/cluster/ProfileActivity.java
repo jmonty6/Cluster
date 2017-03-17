@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.preference.PreferenceManager;
@@ -21,8 +22,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -42,7 +46,6 @@ public class ProfileActivity extends AppCompatActivity {
     private String profileName, year, make, model;
     private int weight, maxRpm;
     private float engDisp, fuelCap;
-    private Uri profileImage;
 
     private ProfileDBAdapter profileDB;
 
@@ -112,12 +115,29 @@ public class ProfileActivity extends AppCompatActivity {
 
                 // pass the profileId of the inserted row back to MainActivity and finish
                 intent.putExtra("profileId", profileId);
+                intent.putExtra("profileSaved", true);
                 finish();
                 return true;
 
             // user pressed the delete profile button
             case R.id.action_delete:
-                // prompt the user to delete the current profile
+                // if the profile exists, delete its row from the database
+                if(profileExists) {
+                    success = profileDB.deleteRow(profileId);
+
+                    // set the proper result code
+                    if(success) { setResult(RESULT_OK, intent); }
+                    else { setResult(RESULT_CANCELED, intent); }
+
+                    // pass the deleted profileId back to MainActivity and let it know the profile was deleted
+                    intent.putExtra("profileId", profileId);
+                    intent.putExtra("profileSaved", false);
+                    finish();
+                }
+                // if the profile hasn't been added yet, prompt the user
+                else {
+                    Toast.makeText(this, "This profile hasn't been created yet!", Toast.LENGTH_SHORT).show();
+                }
                 return true;
 
             // the user's action was not recognized
@@ -129,15 +149,18 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
+            // if returning from selecting a profile image, put the image in profileImageView
             case PROFILE_IMAGE_REQUEST:
                 if(resultCode == RESULT_OK) {
-                    profileImage = data.getData();
+                    // get the URI of the selected image
+                    Uri imageUri = data.getData();
                     try {
-                        Bitmap selectedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), profileImage);
+                        // get a bitmap from the URI and put it in profileImageView
+                        Bitmap selectedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
                         profileImageView.setImageBitmap(selectedImage);
                     }
                     catch(IOException e) {
-
+                        e.printStackTrace();
                     }
                 }
         }
@@ -156,6 +179,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void initDB() {
+        // open the database
         profileDB = new ProfileDBAdapter(this);
         profileDB.open();
     }
@@ -234,7 +258,15 @@ public class ProfileActivity extends AppCompatActivity {
             List<String> makeArray = Arrays.asList(getResources().getStringArray(R.array.prof_make_array));
             makeSpinner.setSelection(makeArray.indexOf(cursor.getString(ProfileDBAdapter.COL_MAKE)));
 
-            profileImageView.setImageURI(Uri.parse(cursor.getString(ProfileDBAdapter.COL_IMG)));
+            // get the profile's image from internal storage
+            try {
+                FileInputStream fiStream = openFileInput(profileId + "");
+                Bitmap bitmap = BitmapFactory.decodeStream(fiStream);
+                profileImageView.setImageBitmap(bitmap);
+            }
+            catch(IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -260,38 +292,31 @@ public class ProfileActivity extends AppCompatActivity {
         if(!fuelCapET.getText().toString().equals("")) {
             fuelCap = Float.parseFloat(fuelCapET.getText().toString());
         }
-
-        // save the profile image to internal storage
-        String filename = profileId + "";
-        try {
-            FileOutputStream outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
-            //outputStream.write();
-        }
-        catch(FileNotFoundException e) {
-
-        }
     }
 
     private boolean addProfile() {
         // pass the value of each field the user populated into instance variables
         parseFields();
         // insert the row with the data collected from the each field and store the id of the inserted row
-        profileId = profileDB.insertRow(profileName, year, make, model, weight, engDisp, maxRpm, fuelCap, profileImage.toString());
+        profileId = profileDB.insertRow(profileName, year, make, model, weight, engDisp, maxRpm, fuelCap);
 
-        // if the row id was -1, there was an error in the insert
-        if(profileId == -1) {
-            return false;
+        // if the row insertion was successful, save the profile image to internal storage
+        if(profileId != -1) {
+            saveProfileImage();
+            return true;
         }
-        // if there wasn't an error, return true for a successful insert
-        return true;
+        return false;
     }
 
     private boolean editProfile() {
         // pass the value of each field the user populated into instance variables
         parseFields();
-        // update the row with the new values collected from each field and return
-        boolean success = profileDB.updateRow(profileId, profileName, year, make, model, weight, engDisp, maxRpm, fuelCap, profileImage.toString());
+        // update the row with the new values collected from each field
+        boolean success = profileDB.updateRow(profileId, profileName, year, make, model, weight, engDisp, maxRpm, fuelCap);
+
+        // if the update was successful, save the profile image to internal storage
         if(success) {
+            saveProfileImage();
             return true;
         }
         return false;
@@ -300,4 +325,25 @@ public class ProfileActivity extends AppCompatActivity {
     private boolean deleteProfile() {
         return true;
     }
+
+    private void saveProfileImage() {
+        // get a byte[] containing the image data in profileImageView
+        Bitmap bitmap = ((BitmapDrawable) profileImageView.getDrawable()).getBitmap();
+        ByteArrayOutputStream baoStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baoStream);
+        byte[] bitmapBytes = baoStream.toByteArray();
+
+        // save the profile image data to internal storage with the same name as the profileId
+        String filename = profileId + "";
+        try {
+            FileOutputStream foStream = openFileOutput(filename, Context.MODE_PRIVATE);
+            foStream.write(bitmapBytes);
+            foStream.close();
+        }
+        catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
+
+

@@ -5,11 +5,12 @@
     android:layout_height="@dimen/header_height">
 
     <ImageView
+        android:id="@+id/header_profile_image_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/header_profile_image_view"
-        android:src="@color/colorPrimary"
+        android:background="@color/logoBackground"
         android:scaleType="centerCrop"
+        android:src="@color/colorPrimary"
         app:srcCompat="@drawable/defaultprofile" />
 
     <View

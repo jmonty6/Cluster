@@ -2,6 +2,7 @@ package edu.niu.students.z1721198.cluster;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -30,6 +31,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
     /* Constants */
 
@@ -54,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
     private String make;
     private int weight, maxRpm;
     private float engDisp, fuelCap;
-    private Uri profileImage;
 
     private BluetoothManager btManager;
     private BluetoothAdapter btAdapter;
@@ -138,23 +143,34 @@ public class MainActivity extends AppCompatActivity {
         switch(requestCode) {
             case EDIT_PROFILE_REQUEST:
                 if(resultCode == RESULT_OK) {
-                    // update the active profile to this one
-                    updateActiveProfile(data.getLongExtra("profileId", -1));
+                    // if the profile was saved, update it
+                    if(data.getBooleanExtra("profileSaved", true)) {
+                        // update the active profile to this one
+                        updateActiveProfile(data.getLongExtra("profileId", -1));
 
-                    // remove the old menu item for this profile and add an updated one
-                    Menu navDrawerMenu = navDrawer.getMenu();
-                    navDrawerMenu.removeItem((int) profileId);
-                    final MenuItem newItem = navDrawerMenu.add(R.id.menu_profile, (int) profileId, Menu.NONE, profileName);
+                        // remove the old menu item for this profile and add an updated one
+                        Menu navDrawerMenu = navDrawer.getMenu();
+                        navDrawerMenu.removeItem((int) profileId);
+                        final MenuItem newItem = navDrawerMenu.add(R.id.menu_profile, (int) profileId, Menu.NONE, profileName);
 
-                    // set the new item to update the active profile when clicked
-                    newItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            updateActiveProfile(newItem.getItemId());
-                            return true;
-                        }
-                    });
+                        // set the new item to update the active profile when clicked
+                        newItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+                                updateActiveProfile(newItem.getItemId());
+                                return true;
+                            }
+                        });
+                    }
+                    // if the profile was deleted, remove it and switch to the default profile
+                    else {
+                        Menu navDrawerMenu = navDrawer.getMenu();
+                        navDrawerMenu.removeItem((int) profileId);
+
+                        updateActiveProfile(1);
+                    }
                 }
+                break;
 
             case NEW_PROFILE_REQUEST:
                 if(resultCode == RESULT_OK) {
@@ -173,6 +189,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 }
+                break;
         }
     }
 
@@ -194,6 +211,30 @@ public class MainActivity extends AppCompatActivity {
 
         // set the active profileId based on the profileId stored in shared preferences
         profileId = preferences.getLong("profileId", 1);
+
+        // put the default profile image in internal storage on first run
+        boolean firstRun = preferences.getBoolean("firstRun", true);
+        if(firstRun) {
+            // get a byte[] containing the image data of the default profile image
+            Bitmap bitmap = ((BitmapDrawable) ContextCompat.getDrawable(this, R.drawable.defaultprofile)).getBitmap();
+            ByteArrayOutputStream baoStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baoStream);
+            byte[] bitmapBytes = baoStream.toByteArray();
+
+            // save the profile image data to internal storage with the same name as the profileId
+            String filename = profileId + "";
+            try {
+                FileOutputStream foStream = openFileOutput(filename, Context.MODE_PRIVATE);
+                foStream.write(bitmapBytes);
+                foStream.close();
+            }
+            catch(IOException e) {
+                e.printStackTrace();
+            }
+
+            // change the firstRun preference to false so this code will not be run again
+            preferences.edit().putBoolean("firstRun", false).commit();
+        }
     }
 
     private void initAppBar() {
@@ -443,12 +484,19 @@ public class MainActivity extends AppCompatActivity {
             engDisp = cursor.getFloat(ProfileDBAdapter.COL_ENGDISP);
             maxRpm = cursor.getInt(ProfileDBAdapter.COL_MAXRPM);
             fuelCap = cursor.getInt(ProfileDBAdapter.COL_FUELCAP);
-            profileImage = Uri.parse(cursor.getString(ProfileDBAdapter.COL_IMG));
 
             // update the header for the navigation drawer
             View headerView = navDrawer.getHeaderView(0);
-            ImageView headerImage = (ImageView) headerView.findViewById(R.id.header_profile_image_view);
-            headerImage.setImageURI(profileImage);
+            ImageView headerImageView = (ImageView) headerView.findViewById(R.id.header_profile_image_view);
+            // get the profile's image from internal storage
+            try {
+                FileInputStream fiStream = openFileInput(profileId + "");
+                Bitmap bitmap = BitmapFactory.decodeStream(fiStream);
+                headerImageView.setImageBitmap(bitmap);
+            }
+            catch(IOException e) {
+                e.printStackTrace();
+            }
 
             Button changeProfileButton = (Button) headerView.findViewById(R.id.header_change_profile_button);
             changeProfileButton.setText(profileName);

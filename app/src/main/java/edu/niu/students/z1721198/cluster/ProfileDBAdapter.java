@@ -21,15 +21,15 @@ public class ProfileDBAdapter {
     public static final String KEY_MAKE = "make";
     public static final String KEY_MODEL = "model";
     public static final String KEY_WEIGHT = "weight";
-    public static final String KEY_FUELCAP = "fuelcap";
     public static final String KEY_ENGDISP = "engdisp";
     public static final String KEY_MAXRPM = "maxrpm";
-    public static final String KEY_IMG = "img";
+    public static final String KEY_FUELCAP = "fuelcap";
+
 
     /* Array of each column name */
     private static final String[] ALL_KEYS = new String[] {
             KEY_ROWID, KEY_NAME, KEY_YEAR, KEY_MAKE, KEY_MODEL, KEY_WEIGHT,
-            KEY_FUELCAP, KEY_ENGDISP, KEY_MAXRPM, KEY_IMG
+            KEY_ENGDISP, KEY_MAXRPM, KEY_FUELCAP
     };
 
     /* Integer value for each column in order */
@@ -39,10 +39,9 @@ public class ProfileDBAdapter {
             COL_MAKE = 3,
             COL_MODEL = 4,
             COL_WEIGHT = 5,
-            COL_FUELCAP = 6,
-            COL_ENGDISP = 7,
-            COL_MAXRPM = 8,
-            COL_IMG = 9;
+            COL_ENGDISP = 6,
+            COL_MAXRPM = 7,
+            COL_FUELCAP = 8;
 
     /* String to create the VehicleInfo table */
     private static final String CREATE_SQL = "CREATE TABLE " + DB_TABLE + "("
@@ -54,8 +53,7 @@ public class ProfileDBAdapter {
             + KEY_WEIGHT + " INTEGER, "
             + KEY_ENGDISP + " REAL, "
             + KEY_MAXRPM + " INTEGER, "
-            + KEY_FUELCAP + " REAL, "
-            + KEY_IMG + " STRING);";
+            + KEY_FUELCAP + " REAL);";
 
     /* String to insert default row */
     private static final String INSERT_DEFAULT_PROFILE_SQL = "INSERT INTO " + DB_TABLE + "("
@@ -66,10 +64,8 @@ public class ProfileDBAdapter {
             + KEY_WEIGHT + ", "
             + KEY_ENGDISP + ", "
             + KEY_MAXRPM + ", "
-            + KEY_FUELCAP + ", "
-            + KEY_IMG
-            + ") VALUES ('Default Profile', '---', '---', '', 0, 0, 0, 0, "
-            + "'android.resource://edu.niu.students.z1721198.cluster/" + R.drawable.defaultprofile + "');";
+            + KEY_FUELCAP
+            + ") VALUES ('Default Profile', '---', '---', '', 0, 0, 0, 0);";
 
     /* Instance Variables */
     private ProfileDBHelper profileDBHelper;
@@ -91,7 +87,7 @@ public class ProfileDBAdapter {
     }
 
     public long insertRow(String name, String year, String make, String model, int weight, float engdisp,
-                          int maxrpm, float fuelcap, String img) {
+                          int maxrpm, float fuelcap) {
         ContentValues rowValues = new ContentValues();
         rowValues.put(KEY_NAME, name);
         rowValues.put(KEY_YEAR, year);
@@ -101,13 +97,12 @@ public class ProfileDBAdapter {
         rowValues.put(KEY_ENGDISP, engdisp);
         rowValues.put(KEY_MAXRPM, maxrpm);
         rowValues.put(KEY_FUELCAP, fuelcap);
-        rowValues.put(KEY_IMG, img);
 
         return db.insert(DB_TABLE, null, rowValues);
     }
 
     public boolean updateRow(long rowId, String name, String year, String make, String model, int weight,
-                             float engdisp, int maxrpm, float fuelcap, String img) {
+                             float engdisp, int maxrpm, float fuelcap) {
         ContentValues rowValues = new ContentValues();
         rowValues.put(KEY_NAME, name);
         rowValues.put(KEY_YEAR, year);
@@ -117,7 +112,6 @@ public class ProfileDBAdapter {
         rowValues.put(KEY_ENGDISP, engdisp);
         rowValues.put(KEY_MAXRPM, maxrpm);
         rowValues.put(KEY_FUELCAP, fuelcap);
-        rowValues.put(KEY_IMG, img);
 
         String where = KEY_ROWID + " = " + rowId;
         return db.update(DB_TABLE, rowValues, where, null) != 0;
